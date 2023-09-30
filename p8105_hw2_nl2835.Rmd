@@ -60,8 +60,21 @@ SNP_df =
 ```
 
 
+```{r}
+SNP_df[["Month"]] <-
+      as.numeric(SNP_df[["Month"]])
 
+```
 
+```{r}
+SNP_df = SNP_df |> 
+  mutate(Month = month.abb[Month])
+```
+
+```{r}
+SNP_df = SNP_df |> 
+  mutate(Year = sprintf('20%s', Year))
+```
 
 
 
