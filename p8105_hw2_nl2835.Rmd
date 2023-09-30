@@ -5,6 +5,8 @@ date: 09-28-2023
 output: github_document
 ---
 
+Problem 1: 
+
 Import FiveThirtyEight data
 
 ```{r}
@@ -116,3 +118,23 @@ full_fivethirtyeight_data =
 
 The unemployment dataset described monthly unemployment rate by year, the SNP dataset described monthly closing values of the S&P 500 by year, and the pols dataset described the count of elected officials by political party, by month and year. The full FiveThirtyEight dataset has 1,428 rows by 12 columns. The years range from 1947 to 2015. The key variables are Year, Month, Day, close (for closing value), GOP & Dem governors, GOP & Dem senators, GOP & Dem representatives, and president party affiliation.
 
+
+Problem 2:
+
+```{r}
+trashwheel_df = 
+  readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 1,
+        range = "A2:N549") |> 
+  mutate(sheet = "mister trashwheel") |> 
+  janitor::clean_names()
+```
+
+
+```{r}
+trashwheel_df |> 
+  mutate(homes_powered = (weight_tons * 500) / 30)
+```
+
+SNP_df = SNP_df |> 
+  mutate(Year = sprintf('20%s', Year)) |> 
+  select(Year, Month, everything())
