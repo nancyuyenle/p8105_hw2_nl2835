@@ -40,13 +40,23 @@ Changed "Month" variable to text.
 ```{r}
 pols_month_df = pols_month_df |> 
   mutate(prez = ifelse(prez_gop=="1", "gop", "dem")) |> 
-  select(-prez_gop, -prez_dem, -Day) 
+  select(-prez_gop, -prez_dem, -Day) |> 
 ```
 
 Created "prez" variable for presidential party.
 
 ```{r}
+select(pols_month_df, Year, Month, everything())
+```
 
+Reorganized dataset to have year and month as leading columns.
+
+```{r}
+SNP_df = 
+  read_csv(file = 
+      "./fivethirtyeight_datasets/snp.csv") |> 
+  separate(col = date, into = 
+         c("Month", "Day", "Year"), sep = "/") 
 ```
 
 
