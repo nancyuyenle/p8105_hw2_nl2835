@@ -194,7 +194,7 @@ trashwheel_collection_data =
 
 
 ```{r}
-trashwheel_collection_data_total =  
+trashwheel_collection_data_total = 
      full_join(trashwheel_collection_data, trashwheel_df, by = c("dumpster",
               "month", "year", "date", "weight_tons", "volume_cubic_yards", 
               "plastic_bottles", "polystyrene", "cigarette_butts", 
@@ -202,6 +202,12 @@ trashwheel_collection_data_total =
               "chip_bags"))
 
 ```
+
+This combined data set has ```r nrow(trashwheel_collection_data_total)``` and
+```r ncol(trashwheel_collection_data_total)``` columns. The variables are: dumpster #, month, year, date, weight in tons, volume in cubic yards, plastic bottles, polystyrene, cigarette butts, plastic bags, which sheet the data is from, homes powered, glass bottles, grocery bags, chip bags, and sports balls. 
+
+The total weight of trash collected by Professor Trash Wheel is `r sum(weight_tons) ifelse(sheet=="professor trashwheel")`
+
 
 
 
