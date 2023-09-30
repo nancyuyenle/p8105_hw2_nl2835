@@ -222,7 +222,7 @@ The total weight of trash collected by Professor Trash Wheel was ```r ptwtons```
 
 ```{r}
 totalcigsgwyn = trashwheel_collection_data_total |> 
-  filter(sheet=="gwynnda") |> 
+  filter(sheet=="gwynnda", year=="2021", month=="July") |> 
   pull(cigarette_butts) |> 
   sum() 
 ```
