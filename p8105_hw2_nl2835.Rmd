@@ -178,6 +178,7 @@ gwynnda_df = gwynnda_df |>
   mutate(homes_powered_v2 = (weight_tons * 500) / 30) |> 
   select(-homes_powered)
 ```
+
 Imported, cleaned, and organized Gwynnda data.
 
 
@@ -203,10 +204,23 @@ trashwheel_collection_data_total =
 
 ```
 
+
 This combined data set has ```r nrow(trashwheel_collection_data_total)``` and
 ```r ncol(trashwheel_collection_data_total)``` columns. The variables are: dumpster #, month, year, date, weight in tons, volume in cubic yards, plastic bottles, polystyrene, cigarette butts, plastic bags, which sheet the data is from, homes powered, glass bottles, grocery bags, chip bags, and sports balls. 
 
-The total weight of trash collected by Professor Trash Wheel is `r sum(weight_tons) ifelse(sheet=="professor trashwheel")`
+```{r}
+ptwtons = trashwheel_collection_data_total |> 
+  filter(sheet=="professor trashwheel") |> 
+  pull(weight_tons) |> 
+  sum() 
+
+```
+
+
+The total weight of trash collected by Professor Trash Wheel was ```r ptwtons``` tons.
+
+
+The total number of cigarette butts collected by Gwynnda in July of 2021 was
 
 
 
