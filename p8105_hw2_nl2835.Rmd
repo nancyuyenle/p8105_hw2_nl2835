@@ -40,7 +40,7 @@ Changed "Month" variable to text.
 ```{r}
 pols_month_df = pols_month_df |> 
   mutate(prez = ifelse(prez_gop=="1", "gop", "dem")) |> 
-  select(-prez_gop, -prez_dem, -Day) |> 
+  select(-prez_gop, -prez_dem, -Day)  
 ```
 
 Created "prez" variable for presidential party.
@@ -73,7 +73,8 @@ SNP_df = SNP_df |>
 
 ```{r}
 SNP_df = SNP_df |> 
-  mutate(Year = sprintf('20%s', Year))
+  mutate(Year = sprintf('20%s', Year)) |> 
+  select(Year, Month, everything())
 ```
 
 
