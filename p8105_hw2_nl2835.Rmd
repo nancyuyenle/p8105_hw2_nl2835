@@ -107,10 +107,12 @@ fivethirtyeight_data[["Year"]] <-
 
 ```
 
+
 ```{r}
 full_fivethirtyeight_data = 
   full_join(fivethirtyeight_data, unemployment_data, by =
           c("Year", "Month"))
 ```
 
+The unemployment dataset described monthly unemployment rate by year, the SNP dataset described monthly closing values of the S&P 500 by year, and the pols dataset described the count of elected officials by political party, by month and year. The full FiveThirtyEight dataset has 1,428 rows by 12 columns. The years range from 1947 to 2015. The key variables are Year, Month, Day, close (for closing value), GOP & Dem governors, GOP & Dem senators, GOP & Dem representatives, and president party affiliation.
 
