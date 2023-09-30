@@ -220,7 +220,15 @@ ptwtons = trashwheel_collection_data_total |>
 The total weight of trash collected by Professor Trash Wheel was ```r ptwtons``` tons.
 
 
-The total number of cigarette butts collected by Gwynnda in July of 2021 was
+```{r}
+totalcigsgwyn = trashwheel_collection_data_total |> 
+  filter(sheet=="gwynnda") |> 
+  pull(cigarette_butts) |> 
+  sum() 
+```
+
+
+The total number of cigarette butts collected by Gwynnda in July of 2021 was ```r totalcigsgwyn```.
 
 
 
