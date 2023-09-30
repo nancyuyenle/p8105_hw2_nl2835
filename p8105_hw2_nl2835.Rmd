@@ -77,5 +77,20 @@ SNP_df = SNP_df |>
   select(Year, Month, everything())
 ```
 
+```{r}
+unemployment_df = 
+  read_csv(file = 
+      "./fivethirtyeight_datasets/unemployment.csv") 
+```
+
+```{r}
+unemployment_data =
+  pivot_longer(
+    unemployment_df,
+    Jan:Dec,
+    names_to = "Month",
+    values_to = "Unemployment Rate"
+  )
+```
 
 
