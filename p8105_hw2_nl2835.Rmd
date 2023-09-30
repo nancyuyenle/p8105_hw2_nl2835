@@ -63,7 +63,7 @@ SNP_df =
 
 
 ```{r}
-SNP_df[["Month"]] <-
+  SNP_df[["Month"]] <-
       as.numeric(SNP_df[["Month"]])
 
 ```
@@ -74,7 +74,7 @@ SNP_df = SNP_df |>
 ```
 
 ```{r}
-SNP_df = SNP_df |> 
+SNP_df |> 
   mutate(Year = sprintf('20%s', Year)) |> 
   select(Year, Month, everything())
 ```
@@ -131,10 +131,77 @@ trashwheel_df =
 
 
 ```{r}
-trashwheel_df |> 
-  mutate(homes_powered = (weight_tons * 500) / 30)
+trashwheel_df = trashwheel_df |> 
+  mutate(homes_powered_v2 = (weight_tons * 500) / 30) |> 
+  select(-homes_powered)
 ```
 
-SNP_df = SNP_df |> 
-  mutate(Year = sprintf('20%s', Year)) |> 
-  select(Year, Month, everything())
+
+```{r}
+trashwheel_df |> 
+  select(dumpster, year, month, everything())
+```
+
+```{r}
+trashwheel_df[["year"]] <-
+  as.numeric(trashwheel_df[["year"]])
+
+```
+
+
+```{r}
+proftrashwheel_df = 
+  readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 2,
+        range = "A2:M96") |> 
+  mutate(sheet = "professor trashwheel") |> 
+  janitor::clean_names()
+```
+
+```{r}
+proftrashwheel_df = proftrashwheel_df |> 
+  mutate(homes_powered_v2 = (weight_tons * 500) / 30) |> 
+  select(-homes_powered)
+```
+
+Imported, cleaned, and organized Professor Trash Wheel data.
+
+```{r}
+gwynnda_df = 
+  readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 4,
+        range = "A2:K108") |> 
+  mutate(sheet = "gwynnda") |> 
+  janitor::clean_names()
+```
+
+```{r}
+gwynnda_df = gwynnda_df |> 
+  mutate(homes_powered_v2 = (weight_tons * 500) / 30) |> 
+  select(-homes_powered)
+```
+Imported, cleaned, and organized Gwynnda data.
+
+
+
+```{r}
+trashwheel_collection_data =  
+     full_join(gwynnda_df, proftrashwheel_df, by = c("dumpster",
+              "month", "year", "date", "weight_tons", "volume_cubic_yards", 
+              "plastic_bottles", "polystyrene", "cigarette_butts",
+              "homes_powered_v2", "sheet"))
+
+```
+
+
+
+```{r}
+trashwheel_collection_data_total =  
+     full_join(trashwheel_collection_data, trashwheel_df, by = c("dumpster",
+              "month", "year", "date", "weight_tons", "volume_cubic_yards", 
+              "plastic_bottles", "polystyrene", "cigarette_butts", 
+              "sheet", "glass_bottles", "grocery_bags", "homes_powered_v2",
+              "chip_bags"))
+
+```
+
+
+
