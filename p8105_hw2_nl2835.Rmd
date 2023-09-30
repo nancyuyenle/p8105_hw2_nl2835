@@ -83,6 +83,7 @@ unemployment_df =
       "./fivethirtyeight_datasets/unemployment.csv") 
 ```
 
+
 ```{r}
 unemployment_data =
   pivot_longer(
@@ -91,6 +92,25 @@ unemployment_data =
     names_to = "Month",
     values_to = "Unemployment Rate"
   )
+```
+
+```{r}
+fivethirtyeight_data = 
+  full_join(SNP_df, pols_month_df, by = c("Year", 
+            "Month"))
+  
+```
+
+```{r}
+fivethirtyeight_data[["Year"]] <-
+  as.numeric(fivethirtyeight_data[["Year"]])
+
+```
+
+```{r}
+full_fivethirtyeight_data = 
+  full_join(fivethirtyeight_data, unemployment_data, by =
+          c("Year", "Month"))
 ```
 
 
