@@ -97,7 +97,6 @@ trashwheel_df =
 
 
 ```{r clean prof trashwheel names}
-library(tidyverse)
 proftrashwheel_df = 
   readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 2,
         range = "A2:M96") |> 
@@ -201,8 +200,35 @@ The total number of cigarette butts collected by Gwynnda in July of 2021 was ```
 
 Problem #3
 
+```{r import MCI baseline data}
+baseline_df = 
+  read_csv("./data_mci/mci_baseline.csv") |> 
+  janitor::clean_names() 
+```
+
+```{r rename variables}
+names(baseline_df)
+
+baseline_df <- as_tibble(baseline_df) |>  
+  rename(ID = x1,
+        age_baseline = age_at_the_study_baseline,
+         sex = x1_male_0_female, 
+         education_years = years_of_education,
+         carrier_status = x1_apoe4_carrier_0_apoe4_non_carrier,
+         onset_age = age_at_the_onset_of_mci_missing_if_a_subject_remains_mci_free_during_the_follow_up_period) |> 
+  mutate(
+    as.character(x1_male_0_female, carrier_status)
+  )
+
+  
+```
 
 
+```{r import MCI amyloid data}
+amyloid_df = 
+  read_csv("./data_mci/mci_amyloid.csv") |> 
+  janitor::clean_names() 
+```
 
 
 
