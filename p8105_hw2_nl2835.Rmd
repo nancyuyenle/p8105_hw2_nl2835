@@ -202,26 +202,18 @@ Problem #3
 
 ```{r import MCI baseline data}
 baseline_df = 
-  read_csv("./data_mci/mci_baseline.csv") |> 
+  read_csv("./data_mci/mci_baseline.csv", skip = 1) |> 
   janitor::clean_names() 
 ```
 
-```{r rename variables}
-names(baseline_df)
 
-baseline_df <- as_tibble(baseline_df) |>  
-  rename(ID = x1,
-        age_baseline = age_at_the_study_baseline,
-         sex = x1_male_0_female, 
-         education_years = years_of_education,
-         carrier_status = x1_apoe4_carrier_0_apoe4_non_carrier,
-         onset_age = age_at_the_onset_of_mci_missing_if_a_subject_remains_mci_free_during_the_follow_up_period) |> 
-  mutate(
-    as.character(sex, carrier_status)
-  )
 
-  
+```{r}
+baseline_df = baseline_df |> 
+ mutate(sex = ifelse(sex == 1, "male", "female"))
+        
 ```
+
 
 
 ```{r import MCI amyloid data}
