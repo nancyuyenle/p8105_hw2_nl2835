@@ -210,10 +210,18 @@ baseline_df =
 
 ```{r}
 baseline_df = baseline_df |> 
- mutate(sex = ifelse(sex == 1, "male", "female"))
+ mutate(
+   sex = ifelse(sex == 1, "male", "female"),
+   apoe4 = ifelse(apoe4 == 1, "true", "false"),
+   )
         
 ```
 
+
+```{r}
+new_baseline <- baseline_df |> 
+  filter(age_at_onset != ".")
+```
 
 
 ```{r import MCI amyloid data}
