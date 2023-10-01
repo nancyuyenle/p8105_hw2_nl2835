@@ -103,16 +103,14 @@ proftrashwheel_df =
         range = "A2:M96") |> 
   janitor::clean_names()
   
-```
 
-```{r clean prof trashwheel data}
-proftrashwheel_df = 
+proftrashwheel_df = proftrashwheel_df |> 
   mutate(
     homes_powered_v2 = (weight_tons * 500) / 30) |> 
-  mutate(
-    sheet = "professor trashwheel") |> 
-  select(-homes_powered)
-  
+  mutate(sheet = "professor trashwheel") |> 
+  select(dumpster, year, month, everything(), -homes_powered)
+
+
 ```
 
 
@@ -124,17 +122,32 @@ gwynnda_df =
         range = "A2:K108") |> 
   mutate(sheet = "gwynnda") |> 
   janitor::clean_names()
-```
 
-```{r}
 gwynnda_df = gwynnda_df |> 
   mutate(homes_powered_v2 = (weight_tons * 500) / 30) |> 
-  select(-homes_powered)
+  select(dumpster, year, month, everything(), -homes_powered)
 ```
 
 Imported, cleaned, and organized Gwynnda data.
 
+```{r}
+proftrashwheel_df <- proftrashwheel_df |>   
+    mutate(year = as.numeric(year))
 
+
+trashwheel_df <- trashwheel_df |>   
+    mutate(year = as.numeric(year))
+
+```
+
+
+```{r merge_trash}
+trashwheel_collection = 
+  left_join(gwynnda_df, proftrashwheel_df) |>
+  left_join(x = _, y = trashwheel_df)
+
+str(trashwheel_collection)
+```
 
 ```{r}
 trashwheel_collection_data =  
