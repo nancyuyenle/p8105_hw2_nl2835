@@ -79,72 +79,42 @@ fivethirtyeight_data =
 str(fivethirtyeight_data)
 ```
 
-The `unemployment_df` dataset described unemployment by month and year, the `SNP_df` dataset described closing values of the S&P 500 by month and year, and the `pols_month_df` dataset described the count of elected officials by political party, by month and year. 
-
-The `unemployment_df` dataset has `r nrow(unemployment_df)` observations and `r ncol(unemployment_df` variables. The years range from `r range(unemployment_df$year)[1]` to `r range(unemployment_df$year)[2]`. 
-
-It tells us xx
 
 
-The `SNP_df` dataset has `r nrow(SNP_df)` observations and `r ncol(SNP_df` variables. The years range from `r range(SNP_df$year)[1]` to `r range(SNP_df$year)[2]`. 
-
-It tells us xx
-
-
-
-The `pols_month_df` dataset has `r nrow(pols_month_df)` observations and `r ncol(pols_month_df` variables. The years range from `r range(pols_month_df$year)[1]` to `r range(pols_month_df$year)[2]`. 
-
-It tells us xx
-
-
-The full FiveThirtyEight dataset has `r nrow(fivethirtyeight_data)` observations and `r ncol(fivethiryteight_data` variables. The years range from `r range(fivethirtyeight_data$year)[1]` to `r range(fivethirtyeight_data$year)[2]`.
-
-
-
-
-Problem 2:
+###Problem 2:
 
 ```{r}
 trashwheel_df = 
   readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 1,
         range = "A2:N549") |> 
-  mutate(sheet = "mister trashwheel") |> 
-  janitor::clean_names()
+  janitor::clean_names() |> 
+  mutate(
+    sheet = "mister trashwheel", homes_powered_v2 = (weight_tons * 500) / 
+      30) |> 
+  select(dumpster, year, month, everything(), -homes_powered)
 ```
 
 
-```{r}
-trashwheel_df = trashwheel_df |> 
-  mutate(homes_powered_v2 = (weight_tons * 500) / 30) |> 
-  select(-homes_powered)
-```
 
-
-```{r}
-trashwheel_df |> 
-  select(dumpster, year, month, everything())
-```
-
-```{r}
-trashwheel_df[["year"]] <-
-  as.numeric(trashwheel_df[["year"]])
-
-```
-
-
-```{r}
+```{r clean prof trashwheel names}
+library(tidyverse)
 proftrashwheel_df = 
   readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 2,
         range = "A2:M96") |> 
-  mutate(sheet = "professor trashwheel") |> 
   janitor::clean_names()
+  
 ```
 
-```{r}
-proftrashwheel_df = proftrashwheel_df |> 
-  mutate(homes_powered_v2 = (weight_tons * 500) / 30) |> 
+```{r clean prof trashwheel data}
+proftrashwheel_df = 
+  mutate(
+    homes_powered_v2 = (weight_tons * 500) / 30) |> 
+  mutate(
+    sheet = "professor trashwheel") |> 
   select(-homes_powered)
+  
 ```
+
 
 Imported, cleaned, and organized Professor Trash Wheel data.
 
