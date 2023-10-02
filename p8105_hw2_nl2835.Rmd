@@ -31,8 +31,7 @@ month_df =
 pols_month_df = 
   read_csv(file = "./fivethirtyeight_datasets/pols-month.csv") |> 
   separate(mon, into = c("year", "month_num", "day"), convert = TRUE) |> 
-  mutate(
-    prez = recode(prez_gop, "0" = "dem", "1" = "gop", "2" = "gop")) |>
+  mutate(prez = recode(prez_gop, "0" = "dem", "1" = "gop", "2" = "gop")) |>
   left_join(x = _, y = month_df) |> 
   select(year, month, everything(), -day, -starts_with("prez")) 
 
@@ -241,11 +240,19 @@ amyloid_df = amyloid_df |>
     names_to = "observation_time",
     values_to = "years_elapsed"
   ) |> 
-  filter(years_elapsed != ".")
+  filter(years_elapsed != ".") |> 
+  rename(id = study_id)
 ```
 
+Steps of importing the `amyloid_df` data were to read the csv, clean the column names, pivot the data from wide to long, filter for non-missing values, and rename `study_id` to `id` so it can be merged with `new_baseline`.
+
+The `new_baseline` data has fewer subjects than in the `amyloid_df` data, as we removed subjects who did not develop MCI from study inclusion. The `amyloid_df` data keeps track of time (in years) elapsed between each subject's observations (independent of study inclusion/exclusion). 
 
 
 You are currently on the last paragraph of the HW assignment; still need to go back and revisit inline code description for Problem 1; make sure have all parts of the HW done
 
+```{r}
+amy_base = 
+  inner_join(new_baseline, amyloid_df, by = "id")
+```
 
