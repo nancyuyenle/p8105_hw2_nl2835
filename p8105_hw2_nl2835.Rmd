@@ -9,6 +9,7 @@ output: github_document
 knitr::opts_chunk$set(collapse = TRUE, message = FALSE)
 ```
 
+
 ```{r load_libraries}
 library(tidyverse)
 library(readxl)
@@ -19,7 +20,7 @@ library(readxl)
 
 We import and clean the FiveThirtyEight `pols_month_df` data, which gives the number of national politicians who are democratic or republican. Some values of `prez_gop` are `2` - we code them as `gop` in the new `prez` variable. 
 
-```{r clean_538_pols}
+```{r clean_538_pols, collapse = TRUE}
 
 month_df = 
   tibble(
@@ -80,7 +81,7 @@ str(fivethirtyeight_data)
 
 
 
-###Problem 2:
+### Problem 2:
 
 ```{r}
 trashwheel_df = 
@@ -201,7 +202,7 @@ The total number of cigarette butts collected by Gwynnda in July of 2021 was ```
 
 
 
-Problem #3
+### Problem 3:
 
 ```{r import MCI baseline data}
 baseline_df = 
