@@ -86,12 +86,12 @@ str(fivethirtyeight_data)
 ```{r}
 trashwheel_df = 
   readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 1,
-        range = "A2:N549") |> 
+        range = "A2:N586") |> 
   janitor::clean_names() |> 
   mutate(
-    sheet = "mister trashwheel", homes_powered_v2 = (weight_tons * 500) / 
+    sheet = "mister trashwheel", homes_powered = (weight_tons * 500) / 
       30) |> 
-  select(dumpster, year, month, everything(), -homes_powered)
+  select(dumpster, year, month, everything())
 ```
 
 
@@ -99,15 +99,15 @@ trashwheel_df =
 ```{r clean prof trashwheel names}
 proftrashwheel_df = 
   readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 2,
-        range = "A2:M96") |> 
+        range = "A2:M108") |> 
   janitor::clean_names()
   
 
 proftrashwheel_df = proftrashwheel_df |> 
   mutate(
-    homes_powered_v2 = (weight_tons * 500) / 30) |> 
+    homes_powered = (weight_tons * 500) / 30) |> 
   mutate(sheet = "professor trashwheel") |> 
-  select(dumpster, year, month, everything(), -homes_powered)
+  select(dumpster, year, month, everything())
 
 
 ```
@@ -118,13 +118,13 @@ Imported, cleaned, and organized Professor Trash Wheel data.
 ```{r}
 gwynnda_df = 
   readxl::read_excel("./mr_trashwheel/trashwheel_collection.xlsx", 4,
-        range = "A2:K108") |> 
+        range = "A2:L158") |> 
   mutate(sheet = "gwynnda") |> 
   janitor::clean_names()
 
 gwynnda_df = gwynnda_df |> 
-  mutate(homes_powered_v2 = (weight_tons * 500) / 30) |> 
-  select(dumpster, year, month, everything(), -homes_powered)
+  mutate(homes_powered = (weight_tons * 500) / 30) |> 
+  select(dumpster, year, month, everything())
 ```
 
 Imported, cleaned, and organized Gwynnda data.
@@ -142,43 +142,20 @@ trashwheel_df <- trashwheel_df |>
 
 ```{r merge_trash}
 trashwheel_collection = 
-  left_join(gwynnda_df, proftrashwheel_df) |>
-  left_join(x = _, y = trashwheel_df)
-
-str(trashwheel_collection)
-```
-
-```{r}
-trashwheel_collection_data =  
-     full_join(gwynnda_df, proftrashwheel_df, by = c("dumpster",
-              "month", "year", "date", "weight_tons", "volume_cubic_yards", 
-              "plastic_bottles", "polystyrene", "cigarette_butts",
-              "homes_powered_v2", "sheet"))
+  bind_rows(trashwheel_df, proftrashwheel_df, gwynnda_df) |> 
+  janitor::clean_names()
 
 ```
 
-
-
-```{r}
-trashwheel_collection_data_total = 
-     full_join(trashwheel_collection_data, trashwheel_df, by = c("dumpster",
-              "month", "year", "date", "weight_tons", "volume_cubic_yards", 
-              "plastic_bottles", "polystyrene", "cigarette_butts", 
-              "sheet", "glass_bottles", "grocery_bags", "homes_powered_v2",
-              "chip_bags"))
-
-```
-
-
-This combined data set has ```r nrow(trashwheel_collection_data_total)``` and
-```r ncol(trashwheel_collection_data_total)``` columns. Some key variables are: `dumpster` #, `date`, `weight_tons` and `volume_cubic_yards` of trash, and types of trash,  including `plastic_bottles`, `polystyrene`, `cigarette_butts`, `plastic_bags`, `glass bottles`, `grocery bags`, `chip bags`, and `sports balls`. There is also a calculation of how many homes would be powered with the amount of trash in the dumpsters, titled `homes_powered_v2`.
+This combined data set has ```r nrow(trashwheel_collection)``` and
+```r ncol(trashwheel_collection)``` columns. Some key variables are: `dumpster` #, `date`, `weight_tons` and `volume_cubic_yards` of trash, and types of trash,  including `plastic_bottles`, `polystyrene`, `cigarette_butts`, `plastic_bags`, `glass bottles`, `grocery bags`, `chip bags`, and `sports balls`. There is also a calculation of how many homes would be powered with the amount of trash in the dumpsters, titled `homes_powered`.
 
 Additionally, the combined dataset includes which `sheet` the data originated from.
 
 
 
 ```{r}
-ptwtons = trashwheel_collection_data_total |> 
+ptwtons = trashwheel_collection |> 
   filter(sheet=="professor trashwheel") |> 
   pull(weight_tons) |> 
   sum() 
@@ -190,7 +167,7 @@ The total weight of trash collected by Professor Trash Wheel was ```r ptwtons```
 
 
 ```{r}
-totalcigsgwyn = trashwheel_collection_data_total |> 
+totalcigsgwyn = trashwheel_collection |> 
   filter(sheet=="gwynnda", year=="2021", month=="July") |> 
   pull(cigarette_butts) |> 
   sum() 
