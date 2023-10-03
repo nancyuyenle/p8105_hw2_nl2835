@@ -145,8 +145,8 @@ trashwheel_collection =
 
 ```
 
-This combined data set has ```r nrow(trashwheel_collection)``` and
-```r ncol(trashwheel_collection)``` columns. Some key variables are: `dumpster` #, `date`, `weight_tons` and `volume_cubic_yards` of trash, and types of trash,  including `plastic_bottles`, `polystyrene`, `cigarette_butts`, `plastic_bags`, `glass bottles`, `grocery bags`, `chip bags`, and `sports balls`. There is also a calculation of how many homes would be powered with the amount of trash in the dumpsters, titled `homes_powered`.
+This combined data set has `r nrow(trashwheel_collection)` observations and
+`r ncol(trashwheel_collection)` variables. Some key variables are: `dumpster` #, `date`, `weight_tons` and `volume_cubic_yards` of trash, and types of trash,  including `plastic_bottles`, `polystyrene`, `cigarette_butts`, `plastic_bags`, `glass bottles`, `grocery bags`, `chip bags`, and `sports balls`. There is also a calculation of how many homes would be powered with the amount of trash in the dumpsters, titled `homes_powered`.
 
 Additionally, the combined dataset includes which `sheet` the data originated from.
 
@@ -219,7 +219,7 @@ amyloid_df = amyloid_df |>
     names_to = "observation_time",
     values_to = "years_elapsed"
   ) |> 
-  filter(years_elapsed != ".") |> 
+  na.omit(years_elapsed) |> 
   rename(id = study_id) 
 ```
 
